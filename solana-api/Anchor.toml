@@ -2,7 +2,7 @@
 seeds = false
 skip-lint = false
 [programs.devnet]
-solanaportfolio = "6VrvAT7HaxLE2iww8tViFkkCFGsc2pUVYrwDt6rE5asc"
+solana_portfolio = "2qGei6swdiMgyXXvNFBuHUypkftbJ5Wy6118B6Y3KmL1"
 
 [registry]
 url = "https://api.apr.dev"

@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::entrypoint::ProgramResult;
 
-declare_id!("6VrvAT7HaxLE2iww8tViFkkCFGsc2pUVYrwDt6rE5asc");
+declare_id!("2qGei6swdiMgyXXvNFBuHUypkftbJ5Wy6118B6Y3KmL1");
 
 #[program]
 pub mod solanaportfolio {
