@@ -1,8 +1,8 @@
 [features]
 seeds = false
 skip-lint = false
-[programs.localnet]
-solanaportfolio = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.devnet]
+solanaportfolio = "6VrvAT7HaxLE2iww8tViFkkCFGsc2pUVYrwDt6rE5asc"
 
 [registry]
 url = "https://api.apr.dev"
