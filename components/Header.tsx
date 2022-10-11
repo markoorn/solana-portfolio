@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 type Props = {
   onWalletConnect: (address: string) => void;
   onCreateEntryClicked: () => void;
+  onAccountCreateClicked: () => void;
 };
 
 export default function Header({
   onWalletConnect,
   onCreateEntryClicked,
+  onAccountCreateClicked,
 }: Props) {
   const ADMIN_ACCOUNT = '5EutU8SEmb94ZmLG7GKQFpF5Q796ZYyfYxbPriPQusT3';
   const [currentAccount, setCurrentAccount] = useState('');
@@ -45,6 +47,14 @@ export default function Header({
               onClick={connectWallet}
             >
               Connect Wallet
+            </button>
+          )}
+          {currentAccount && currentAccount === ADMIN_ACCOUNT && (
+            <button
+              className="block  bg-blue-400 w-full mx-1 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:text-gray-600 focus:shadow-outline"
+              onClick={() => onAccountCreateClicked()}
+            >
+              Initialize Account
             </button>
           )}
           {currentAccount && currentAccount === ADMIN_ACCOUNT && (

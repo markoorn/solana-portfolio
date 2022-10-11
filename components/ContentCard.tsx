@@ -50,9 +50,7 @@ export default function ContentCard({ project, onClick }: Props) {
         <div className="p-4 border-t border-b text-xxs text-gray-700">
           <span className="flex items-center p-1">
             <p>Technologies: </p>
-            {project.technologies?.map((tech) => (
-              <p key={tech}> {tech}</p>
-            ))}
+            {project.technologies}
           </span>
         </div>
       </div>

@@ -4,8 +4,13 @@ import { Project } from '../types/Project';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import { AnchorProvider, Idl, Program } from '@project-serum/anchor';
+import { Keypair } from '@solana/web3.js';
 
 type Props = {
+  program: Program<Idl>;
+  provider: AnchorProvider;
+  baseAccount: Keypair;
   address: string;
   project?: Project;
   isVisible: boolean;
@@ -19,6 +24,9 @@ const PLACEHOLDER_IMAGE =
   'https://res.cloudinary.com/silverstag/image/upload/v1664966534/ternoa/placeholder_eukgmf.png';
 
 export default function Modal({
+  program,
+  provider,
+  baseAccount,
   address,
   isVisible,
   onClose,
@@ -65,7 +73,7 @@ export default function Modal({
   const uploadImage = async (files: FileList) => {
     const formData = new FormData();
     formData.append('file', files[0]);
-    formData.append('upload_preset', 'ternoa-upload');
+    formData.append('upload_preset', 'solana-portfolio');
 
     const result = await axios.post(
       'https://api.cloudinary.com/v1_1/silverstag/image/upload',
@@ -92,28 +100,39 @@ export default function Modal({
   };
 
   const onSubmit = async (data: any) => {
-    //TODO handle submit
-    // const itemCopy = { ...newOrUpdatedItem };
-    // itemCopy.title = data.title;
-    // itemCopy.description = data.description;
-    // setLoading(true);
+    const projectCopy = { ...newOrUpdatedItem };
+    projectCopy.title = data.title;
+    projectCopy.description = data.description;
+    setLoading(true);
 
-    // if (data.image && data.image.length > 0) {
-    //   const imageUrl = await uploadImage(data.image);
-    //   itemCopy.imageUrl = imageUrl;
-    // }
+    if (data.image && data.image.length > 0) {
+      const imageUrl = await uploadImage(data.image);
+      projectCopy.imageUrl = imageUrl;
+    }
 
-    // if (itemCopy?.id) {
-    //   const result = await axios.put(`/api/gallery/${itemCopy?.id}`, itemCopy);
-    //   console.log(`Sucessfully updated item with id: ${result.data.id}`);
-    //   onItemUpdated(result.data);
-    // } else {
-    //   const result = await axios.post(`/api/gallery/create`, itemCopy);
-    //   console.log(`Successfully created item with id: ${result.data.id}`);
-    //   onItemAdded(result.data);
-    // }
+    console.log('Base account: ', baseAccount);
+    console.log('Provider: ', provider.wallet.publicKey);
 
-    // setNewOrUpdatedItem(itemCopy);
+    try {
+      await program.rpc.addProject(
+        projectCopy.title,
+        projectCopy.description,
+        projectCopy.imageUrl,
+        'tecg, texh ,text',
+        {
+          accounts: {
+            baseAccount: baseAccount.publicKey,
+            user: provider.wallet.publicKey,
+          },
+        },
+      );
+      console.log('project successfully sent to program', projectCopy);
+    } catch (error) {
+      console.log('Error sending project:', error);
+    }
+
+    onProjectAdded(projectCopy);
+    setNewOrUpdatedItem(projectCopy);
     cleanupAndClose();
   };
 
