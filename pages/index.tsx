@@ -105,7 +105,6 @@ const Home: NextPage = () => {
 
         console.log('Got the account', account);
         setProjects(account.projects);
-        console.log('VISITS:', Number(account.totalVisits));
         setVisitCount(Number(account.totalVisits));
       }
     } catch (error) {
@@ -198,7 +197,7 @@ const Home: NextPage = () => {
           <div className="flex flex-wrap -mx-4">
             {projects.map((project) => (
               <ContentCard
-                key={project.id}
+                key={project.title}
                 project={project}
                 onClick={() => console.log('Selected: ', project.id)}
               />
