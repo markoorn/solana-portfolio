@@ -36,6 +36,7 @@ const Home: NextPage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [program, setProgram] = useState<Program<Idl>>();
   const [provider, setProvider] = useState<AnchorProvider>();
+  const [visitCount, setVisitCount] = useState(0);
 
   const emptyProject = {
     title: '',
@@ -59,10 +60,7 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    if (currentAccount) {
-      console.log('Fetching project list...');
-      getProjects();
-    }
+    getAccountData();
   }, [currentAccount]);
 
   const createProjectAccount = async () => {
@@ -80,7 +78,7 @@ const Home: NextPage = () => {
           'Created a new BaseAccount w/ address:',
           baseAccount.publicKey.toString(),
         );
-        await getProjects();
+        await getAccountData();
       }
     } catch (error) {
       console.log('Error creating BaseAccount account:', error);
@@ -95,7 +93,7 @@ const Home: NextPage = () => {
     return null;
   };
 
-  const getProjects = async () => {
+  const getAccountData = async () => {
     try {
       const program = await getProgram();
       if (program) {
@@ -107,6 +105,8 @@ const Home: NextPage = () => {
 
         console.log('Got the account', account);
         setProjects(account.projects);
+        console.log('VISITS:', Number(account.totalVisits));
+        setVisitCount(Number(account.totalVisits));
       }
     } catch (error) {
       console.log('Error in getProjects: ', error);
@@ -130,9 +130,22 @@ const Home: NextPage = () => {
     setProjects(projectsCopy);
   };
 
-  const onWalletConnect = (account: string) => {
+  const onWalletConnect = async (account: string) => {
     setCurrentAccount(account);
-    // TODO Call Solana program here.
+    if (program && provider) {
+      try {
+        await program.rpc.addVisit({
+          accounts: {
+            baseAccount: baseAccount.publicKey,
+            user: provider.wallet.publicKey,
+          },
+        });
+        console.log('Visit tracked');
+        setVisitCount(visitCount + 1);
+      } catch (error) {
+        console.log('Error adding visit:', error);
+      }
+    }
 
     console.log('Connected account: ', account);
   };
@@ -174,6 +187,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Header
+        visits={visitCount}
         onWalletConnect={onWalletConnect}
         onCreateEntryClicked={onCreateEntryClicked}
         onAccountCreateClicked={createProjectAccount}

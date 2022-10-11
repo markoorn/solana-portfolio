@@ -90,13 +90,6 @@ export default function Modal({
 
   const onDeleteItem = async (e: any) => {
     //todo handle delete
-    // e.preventDefault();
-    // if (newOrUpdatedItem) {
-    //   const result = await axios.delete(`api/gallery/${newOrUpdatedItem.id}`);
-    //   console.log(`successfully deleted item with id: ${result.data.id}`);
-    //   onItemDeleted(result.data.id);
-    // }
-    // cleanupAndClose();
   };
 
   const onSubmit = async (data: any) => {
@@ -110,15 +103,11 @@ export default function Modal({
       projectCopy.imageUrl = imageUrl;
     }
 
-    console.log('Base account: ', baseAccount);
-    console.log('Provider: ', provider.wallet.publicKey);
-
     try {
       await program.rpc.addProject(
         projectCopy.title,
         projectCopy.description,
         projectCopy.imageUrl,
-        'tecg, texh ,text',
         {
           accounts: {
             baseAccount: baseAccount.publicKey,

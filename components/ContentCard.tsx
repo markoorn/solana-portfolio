@@ -14,7 +14,7 @@ const PLACEHOLDER_IMAGE =
 export default function ContentCard({ project, onClick }: Props) {
   return (
     <motion.div
-      className="w-full sm:w-1/2 md:w-1/2 xl:w-1/4 p-5"
+      className="w-1/3 p-5"
       initial={{
         x: -500,
         opacity: 0,
@@ -33,7 +33,7 @@ export default function ContentCard({ project, onClick }: Props) {
         className="c-card block bg-white shadow-md hover:shadow-xl rounded-lg overflow-hidden z-10"
         onClick={onClick}
       >
-        <div className="relative pb-64 overflow-hidden">
+        <div className="relative pb-48 overflow-hidden">
           <Image
             priority
             className="absolute inset-0 h-full w-full object-cover"
@@ -43,15 +43,9 @@ export default function ContentCard({ project, onClick }: Props) {
             alt=""
           />
         </div>
-        <div className="px-4">
+        <div className="px-4 p-4 border-t border-b">
           <h2 className="mt-2 mb-2  font-bold">{project.title}</h2>
-          <p className="text-sm h-20 overflow-clip">{project.description}</p>
-        </div>
-        <div className="p-4 border-t border-b text-xxs text-gray-700">
-          <span className="flex items-center p-1">
-            <p>Technologies: </p>
-            {project.technologies}
-          </span>
+          <p className="text-sm h-30 overflow-clip">{project.description}</p>
         </div>
       </div>
     </motion.div>

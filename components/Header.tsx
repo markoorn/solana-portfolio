@@ -4,9 +4,11 @@ type Props = {
   onWalletConnect: (address: string) => void;
   onCreateEntryClicked: () => void;
   onAccountCreateClicked: () => void;
+  visits: number;
 };
 
 export default function Header({
+  visits,
   onWalletConnect,
   onCreateEntryClicked,
   onAccountCreateClicked,
@@ -35,10 +37,15 @@ export default function Header({
             </p>
           )}
           {!currentAccount && (
-            <p className="text-xs text-gray-700 ">
+            <p className="text-xs text-gray-700">
               Connect your wallet to get started!
             </p>
           )}
+        </div>
+        <div>
+          <p className="text-xs text-gray-700">
+            Total Solana wallet connections: {visits}
+          </p>
         </div>
         <div>
           {!currentAccount && (
@@ -49,14 +56,14 @@ export default function Header({
               Connect Wallet
             </button>
           )}
-          {currentAccount && currentAccount === ADMIN_ACCOUNT && (
+          {/* {currentAccount && currentAccount === ADMIN_ACCOUNT && (
             <button
               className="block  bg-blue-400 w-full mx-1 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:text-gray-600 focus:shadow-outline"
               onClick={() => onAccountCreateClicked()}
             >
               Initialize Account
             </button>
-          )}
+          )} */}
           {currentAccount && currentAccount === ADMIN_ACCOUNT && (
             <button
               className="block  bg-blue-400 w-full mx-1 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:text-gray-600 focus:shadow-outline"
